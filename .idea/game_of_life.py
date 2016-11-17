@@ -32,13 +32,16 @@ def evolve():
                 cells[position] = True
 
 def get_cells(density=0.2):
-    return {(c, r): random.random() < density for c in range(columns) for r in range(rows)}
+    # return {(c, r): random.random() < density for c in range(columns) for r in range(rows)}
+    return {(1,1)}
+
 
 pygame.init()
 
 columns, rows = 50, 50
 cells = get_cells()
 clock = pygame.time.Clock()
+speed = 1
 
 cell_size = 10
 size = width, height = columns * cell_size, rows * cell_size
@@ -46,10 +49,15 @@ screen = pygame.display.set_mode(size)
 
 
 while True:
-    clock.tick(4)
+    clock.tick(speed)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if speed > 1 and event.key == pygame.K_LEFT:
+                speed -= 1
+            if event.key == pygame.K_RIGHT:
+                speed += 1
     draw_cells()
     evolve()
     draw_grid()
